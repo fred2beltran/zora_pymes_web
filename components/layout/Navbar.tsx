@@ -21,9 +21,8 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
-      {/* Contenedor principal */}
       <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 md:h-20 md:px-10">
-        {/* Logo */}
+        {/* Logo — ancho natural, alineado a la izquierda */}
         <Link
           href="/"
           className="flex items-center gap-2.5"
@@ -38,8 +37,8 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Links desktop */}
-        <ul className="hidden items-center gap-8 md:flex">
+        {/* Links desktop — centrados en el espacio disponible */}
+        <ul className="hidden flex-1 items-center justify-center gap-8 md:flex">
           {links.map((l) => (
             <li key={l.href}>
               <Link
@@ -59,7 +58,7 @@ export function Navbar() {
           ))}
         </ul>
 
-        {/* CTAs desktop */}
+        {/* CTAs desktop — alineados a la derecha */}
         <div className="hidden items-center gap-5 md:flex">
           <ThemeToggle />
           <Link

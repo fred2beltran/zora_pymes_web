@@ -1,0 +1,40 @@
+         <table border="1" cellpadding="10" cellspacing="0" style="border-collapse:collapse;">
+            <thead>
+            <tr>
+               <th class="text-center">Sucursal</th>
+               <th class="text-center">Centro de costos</th>
+                              <th class="text-center">ID orden</th>
+               <th class="text-center">ID venta ecommerce</th>
+               <th class="text-center">Nombre venta ecommerce</th>
+               <th class="text-center">Ecommerce</th>
+               <th class="text-center">Bodega</th>
+               <th class="text-center">Nombre cliente</th>
+               <th class="text-center">ID. cliente</th>
+               <th class="text-center">Teléfono</th>
+               <th class="text-center">País</th>
+               <th class="text-center">Departamento</th>
+               <th class="text-center">Ciudad</th>
+               <th class="text-center">Dirección</th>
+               <th class="text-center">Vendedor</th>
+               <th class="text-center">Total bruto</th>
+               <th class="text-center">Descuentos</th>
+               <th class="text-center">Subtotal</th>
+               <th class="text-center">Impuestos</th>
+               <th class="text-center">Retenciones</th>
+               <th class="text-center">Total neto</th>
+               <th class="text-center">Observación</th>
+               <th class="text-center">Vigencia</th>
+               <th class="text-center">Último estado</th>
+               <th class="text-center">Estado facturación</th>
+               <th class="text-center">Fecha de entrega</th>
+               <th class="text-center">Fecha de creación</th>
+               <th class="text-center">Responsable de creación</th>
+               <th class="text-center">Observación de anulación</th>
+               <th class="text-center">Fecha de anulación</th>
+               <th class="text-center">Responsable de anulación</th>
+            </tr>
+            </thead>
+            <tbody id="bodyTabla">
+                        </tbody>
+         </table>
+         

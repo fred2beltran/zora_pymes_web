@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Neutros */
+  --color-bg: #101716;
+  --color-surface: #182522;
+  --color-border: #30443E;
+  --color-muted: #9FB0AA;
+  --color-fg: #F3F7F5;
+
+  /* Primarios */
+  --color-primary: #43C59E;
+  --color-primary-deep: #258B73;
+  --color-primary-hover: #36B38D;
+
+  /* Semánticos */
+  --color-success: #82C985;
+  --color-warning: #E5B454;
+  --color-error: #EF767A;
+  --color-info: #72B7D9;
+  --color-ai: #A88BE8;
+
+  /* Fuentes */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+
+  /* Radios */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Gradientes — generan utilidades bg-grad-primary, bg-grad-ai, bg-grad-info */
+  --background-image-grad-primary: linear-gradient(90deg, #43C59E, #258B73);
+  --background-image-grad-ai:      linear-gradient(90deg, #A88BE8, #7E6AD6);
+  --background-image-grad-info:    linear-gradient(90deg, #72B7D9, #43C59E);
+
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html.light {
+  --color-bg:      #F7FBF9;
+  --color-surface: #FFFFFF;
+  --color-line:    #D7E3DE;
+  --color-muted:   #5E716A;
+  --color-fg:      #101716;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* Transición suave al cambiar de tema (solo propiedades de color) */
+html, body {
+  transition: background-color 250ms ease, color 250ms ease;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html *, html *::before, html *::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
 }

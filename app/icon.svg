@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="zora-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#43C59E" />
+      <stop offset="100%" stop-color="#258B73" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#zora-grad)" />
+  <path
+    d="M9 9h14l-9 7h9v7H9l9-7H9z"
+    fill="#101716"
+    fill-rule="evenodd"
+  />
+</svg>

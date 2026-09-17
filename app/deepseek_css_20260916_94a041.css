@@ -1,0 +1,91 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   ZORA PYMES — Sistema visual "Verde Pacífico"
+   ============================================ */
+
+:root {
+  --zora-bg:          #101716;
+  --zora-surface:     #182522;
+  --zora-border:      #30443E;
+  --zora-text-muted:  #9FB0AA;
+  --zora-text:        #F3F7F5;
+
+  --zora-primary:       #43C59E;
+  --zora-primary-deep:  #258B73;
+  --zora-primary-hover: #36B38D;
+
+  --zora-success: #82C985;
+  --zora-warning: #E5B454;
+  --zora-error:   #EF767A;
+  --zora-info:    #72B7D9;
+  --zora-ai:      #A88BE8;
+
+  --grad-primary: linear-gradient(90deg, #43C59E, #258B73);
+  --grad-ai:      linear-gradient(90deg, #A88BE8, #7E6AD6);
+  --grad-info:    linear-gradient(90deg, #72B7D9, #43C59E);
+}
+
+html.light {
+  --zora-bg:         #F7FBF9;
+  --zora-surface:    #FFFFFF;
+  --zora-border:     #D7E3DE;
+  --zora-text-muted: #5E716A;
+  --zora-text:       #101716;
+}
+
+html, body {
+  background-color: var(--zora-bg);
+  color: var(--zora-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* { border-color: var(--zora-border); }
+
+*:focus-visible {
+  outline: 2px solid var(--zora-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--zora-primary);
+  color: #101716;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--zora-bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--zora-border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--zora-primary); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--zora-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--zora-border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  .glow-primary { box-shadow: 0 0 40px rgba(67, 197, 158, 0.25); }
+  .glow-ai      { box-shadow: 0 0 32px rgba(168, 139, 232, 0.28); }
+}

@@ -144,9 +144,15 @@ export default function RootLayout({
         <ThemeProvider>{children}</ThemeProvider>
 
         {/* Analytics y Speed Insights — Vercel */}
-        <Analytics />
-        <SpeedInsights />
+        <body className="font-sans antialiased bg-bg text-fg">
+          <ThemeProvider>{children}</ThemeProvider>
+
+          {/* 👇 AQUÍ van los 2 componentes */}
+          <Analytics />
+          <SpeedInsights />
+        </body>
       </body>
     </html>
   )
 }
+

@@ -1,186 +1,190 @@
-// app/blog/page.tsx
+// app/blog/[slug]/page.tsx
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Section } from '@/components/ui/Section'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { FinalCTA } from '@/components/sections/FinalCTA'
-import { getAllPosts, getFeaturedPost, formatDate } from '@/lib/blog'
+import { Button } from '@/components/ui/Button'
+import { MDXContent } from '@/components/blog/MDXContent'
+import {
+  getAllPostSlugs,
+  getPostBySlug,
+  getAllPosts,
+  formatDate,
+} from '@/lib/blog'
 import { SITE_URL } from '@/lib/site'
 
-export const metadata: Metadata = {
-  title: 'Blog',
-  description:
-    'Ideas, guías y consejos prácticos para llevar la contabilidad de tu pyme o emprendimiento sin saber contabilidad. Por el equipo de Zora.',
-  alternates: { canonical: `${SITE_URL}/blog` },
-  openGraph: {
-    title: 'Blog · Zora Pymes',
-    description: 'Ideas y guías para llevar tu negocio más simple.',
-    url: `${SITE_URL}/blog`,
-    type: 'website',
-  },
+interface Params {
+  params: Promise<{ slug: string }>
 }
 
-export default function BlogPage() {
-  const allPosts = getAllPosts()
-  const featured = getFeaturedPost()
-  const posts = featured
-    ? allPosts.filter((p) => p.slug !== featured.slug)
-    : allPosts
+// Genera todas las rutas estáticas en build time
+export async function generateStaticParams() {
+  const slugs = getAllPostSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
+  if (!post) return {}
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
+    openGraph: {
+      title: `${post.title} · Zora Pymes`,
+      description: post.excerpt,
+      url: `${SITE_URL}/blog/${post.slug}`,
+      type: 'article',
+      publishedTime: post.date,
+    },
+  }
+}
+
+export default async function PostPage({ params }: Params) {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
+  if (!post) notFound()
+
+  // Posts relacionados: misma categoría, excluyendo el actual
+  const related = getAllPosts()
+    .filter((p) => p.slug !== post.slug && p.category === post.category)
+    .slice(0, 3)
+
+  // Si no hay de la misma categoría, coge 3 aleatorios
+  const fallback = related.length
+    ? related
+    : getAllPosts().filter((p) => p.slug !== post.slug).slice(0, 3)
 
   return (
     <>
       <Navbar />
 
       <main>
-        {/* Hero blog */}
-        <Section bg="default" className="pb-8 md:pb-12">
-          <div className="mx-auto max-w-prose text-center">
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Blog
-            </span>
-            <h1 className="mt-4 text-3xl font-bold text-balance md:text-4xl">
-              Ideas para llevar tu negocio más simple.
+        {/* Hero del artículo */}
+        <Section bg="default" className="pb-0 md:pb-0">
+          <div className="mx-auto max-w-prose">
+            {/* Breadcrumb */}
+            <nav
+              aria-label="Migas de pan"
+              className="mb-8 flex items-center gap-2 text-xs text-muted"
+            >
+              <Link href="/" className="hover:text-fg">
+                Inicio
+              </Link>
+              <span aria-hidden>·</span>
+              <Link href="/blog" className="hover:text-fg">
+                Blog
+              </Link>
+              <span aria-hidden>·</span>
+              <span className="text-fg">{post.category}</span>
+            </nav>
+
+            <Badge variant={post.ia ? 'ai' : 'primary'}>
+              {post.category}
+            </Badge>
+
+            <h1 className="mt-5 text-3xl font-bold text-balance md:text-4xl">
+              {post.title}
             </h1>
-            <p className="mt-5 text-md text-muted text-pretty md:text-lg">
-              Guías prácticas, sin jerga contable. Para pymes y emprendedores
-              que quieren entender sus números.
+
+            <p className="mt-5 text-lg text-muted text-pretty">
+              {post.excerpt}
             </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4 border-y border-line py-5 text-sm text-muted">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-primary">
+                  Z
+                </div>
+                <span>Equipo de Zora</span>
+              </div>
+              <span aria-hidden>·</span>
+              <span>{formatDate(post.date)}</span>
+              <span aria-hidden>·</span>
+              <span>{post.readTime} de lectura</span>
+            </div>
           </div>
         </Section>
 
-        {/* Post destacado */}
-        {featured && (
-          <Section bg="default" className="pt-0 md:pt-0">
-            <Link href={`/blog/${featured.slug}`} className="group block">
-              <Card
-                variant="featured"
-                className="overflow-hidden md:grid md:grid-cols-2 md:items-stretch md:p-0"
-                hoverable
-              >
-                <div className="relative min-h-[220px] bg-grad-primary md:min-h-[320px]">
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 bg-grid opacity-30"
-                  />
-                  <div className="absolute left-6 top-6">
-                    <Badge variant="primary">Destacado</Badge>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-7xl opacity-40">📘</span>
-                  </div>
-                </div>
+        {/* Contenido MDX */}
+        <Section bg="default" className="pt-10 md:pt-12">
+          <article className="mx-auto max-w-prose">
+            <MDXContent source={post.content} />
 
-                <div className="p-8 md:p-10">
-                  <div className="flex flex-wrap items-center gap-3 text-xs">
-                    <Badge variant="primary">{featured.category}</Badge>
-                    <span className="text-muted">
-                      {formatDate(featured.date)} · {featured.readTime}
-                    </span>
-                  </div>
+            {/* CTA después del artículo */}
+            <div className="mt-16 rounded-lg border border-line bg-surface p-8 text-center">
+              <h2 className="text-xl font-bold text-balance md:text-2xl">
+                ¿Te ha sido útil?
+              </h2>
+              <p className="mt-3 text-sm text-muted text-pretty">
+                Empieza gratis en Zora y lleva tu contabilidad sin saber
+                contabilidad.
+              </p>
+              <div className="mt-6 flex justify-center">
+                <Button as="link" href="/registro" size="lg">
+                  Empieza gratis
+                </Button>
+              </div>
+            </div>
+          </article>
+        </Section>
 
-                  <h2 className="mt-5 text-2xl font-bold text-balance transition-colors group-hover:text-primary md:text-3xl">
-                    {featured.title}
-                  </h2>
-
-                  <p className="mt-4 text-md text-muted text-pretty">
-                    {featured.excerpt}
-                  </p>
-
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
-                    Leer artículo
-                    <span
-                      aria-hidden
-                      className="transition-transform group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
-                  </span>
-                </div>
-              </Card>
-            </Link>
-          </Section>
-        )}
-
-        {/* Grid de posts */}
-        {posts.length > 0 && (
+        {/* Posts relacionados */}
+        {fallback.length > 0 && (
           <Section bg="surface">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((p) => (
-                <Link key={p.slug} href={`/blog/${p.slug}`} className="group block">
+            <div className="mx-auto max-w-prose text-center">
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+                Sigue leyendo
+              </span>
+              <h2 className="mt-4 text-2xl font-bold text-balance md:text-3xl">
+                Artículos relacionados
+              </h2>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {fallback.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/blog/${p.slug}`}
+                  className="group block"
+                >
                   <Card
                     variant={p.ia ? 'ai' : 'default'}
                     className="flex h-full flex-col"
                     hoverable
                   >
-                    <div className="flex items-center gap-3 text-xs">
-                      <Badge variant={p.ia ? 'ai' : 'primary'}>
-                        {p.category}
-                      </Badge>
-                    </div>
-
-                    <h3 className="mt-4 text-lg font-semibold text-balance transition-colors group-hover:text-primary">
+                    <Badge variant={p.ia ? 'ai' : 'primary'}>
+                      {p.category}
+                    </Badge>
+                    <h3 className="mt-4 text-md font-semibold text-balance transition-colors group-hover:text-primary">
                       {p.title}
                     </h3>
-
                     <p className="mt-3 flex-1 text-sm text-muted text-pretty">
                       {p.excerpt}
                     </p>
-
-                    <div className="mt-5 flex items-center gap-3 border-t border-line pt-4 text-xs text-muted">
+                    <div className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-xs text-muted">
                       <span>{formatDate(p.date)}</span>
                       <span aria-hidden>·</span>
                       <span>{p.readTime}</span>
-                      <span
-                        aria-hidden
-                        className="ml-auto text-primary transition-transform group-hover:translate-x-1"
-                      >
-                        →
-                      </span>
                     </div>
                   </Card>
                 </Link>
               ))}
             </div>
+
+            <div className="mt-10 flex justify-center">
+              <Button as="link" href="/blog" variant="secondary" size="md">
+                Ver todos los artículos →
+              </Button>
+            </div>
           </Section>
         )}
-
-        {/* Newsletter */}
-        <Section bg="default">
-          <Card className="mx-auto max-w-2xl">
-            <div className="text-center">
-              <h2 className="text-xl font-bold text-balance md:text-2xl">
-                Recibe 1 email al mes. Sin spam.
-              </h2>
-              <p className="mt-3 text-sm text-muted text-pretty">
-                Guías prácticas, cambios legales que te afectan y consejos para
-                llevar mejor tu negocio.
-              </p>
-
-              <form className="mt-6 flex flex-col gap-3 sm:flex-row" action="#">
-                <input
-                  type="email"
-                  placeholder="tu@email.com"
-                  aria-label="Email"
-                  className="h-11 flex-1 rounded-md border border-line bg-bg px-4 text-md text-fg outline-none transition-colors placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20"
-                />
-                <button
-                  type="submit"
-                  className="h-11 rounded-md bg-primary px-6 text-md font-semibold text-[#101716] transition-colors hover:bg-primary-hover"
-                >
-                  Suscribirme
-                </button>
-              </form>
-              <p className="mt-3 text-xs text-muted">
-                Cancela cuando quieras. Sin compromiso.
-              </p>
-            </div>
-          </Card>
-        </Section>
-
-        <FinalCTA />
       </main>
 
       <Footer />

@@ -136,7 +136,7 @@ export function PricingBlock() {
 
                 <div className="mt-6 flex items-end gap-1">
                   <span className="text-3xl font-bold">
-                    {price === 0 ? 'Gratis' : `${price} €`}
+                    {price === 0 ? 'Gratis' : `$${price}`}
                   </span>
                   {suffix && (
                     <span className="pb-1 text-sm text-muted">{suffix}</span>
@@ -191,7 +191,7 @@ export function PricingBlock() {
       </p>
 
       <p className="mt-4 text-center text-xs text-muted">
-        Precios sin IVA. El IVA se calcula según tu país en el momento del pago.
+        Precios sin IVA. El IVA (15%) se calcula en el momento del pago.
       </p>
     </Section>
   )

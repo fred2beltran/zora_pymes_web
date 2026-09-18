@@ -157,7 +157,7 @@ export function Pricing() {
 
                 <div className="mt-6 flex items-end gap-1">
                   <span className="text-3xl font-bold">
-                    {price === 0 ? 'Gratis' : `${price} €`}
+                    {price === 0 ? 'Gratis' : `$${price}`}
                   </span>
                   {suffix && (
                     <span className="pb-1 text-sm text-muted">{suffix}</span>
@@ -211,6 +211,10 @@ export function Pricing() {
 
       <p className="mt-8 text-center text-sm text-muted">
         ✅ 14 días gratis · ✅ Sin tarjeta · ✅ Cancela en 1 clic
+      </p>
+
+      <p className="mt-4 text-center text-xs text-muted">
+        Precios sin IVA. El IVA (15%) se calcula en el momento del pago.
       </p>
     </Section>
   )

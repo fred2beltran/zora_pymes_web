@@ -13,38 +13,31 @@ interface Row {
 }
 
 const rows: Row[] = [
-  // General
   { category: 'General', feature: 'Usuarios',                     starter: '1',           pro: 'Hasta 5',       business: 'Ilimitados' },
   { category: 'General', feature: 'Facturas al mes',              starter: '20',          pro: 'Ilimitadas',    business: 'Ilimitadas' },
   { category: 'General', feature: 'Multi-empresa',                starter: false,         pro: false,           business: true },
 
-  // Contabilidad
   { category: 'Contabilidad', feature: 'Clasificación automática de gastos', starter: true,  pro: true,            business: true },
   { category: 'Contabilidad', feature: 'Reportes básicos',        starter: true,          pro: true,            business: true },
   { category: 'Contabilidad', feature: 'Reportes avanzados',      starter: false,         pro: true,            business: true },
   { category: 'Contabilidad', feature: 'Recordatorios de plazos', starter: false,         pro: true,            business: true },
 
-  // IA
   { category: 'Copiloto IA', feature: 'Copiloto IA incluido',     starter: false,         pro: true,            business: true },
   { category: 'Copiloto IA', feature: 'Preguntas ilimitadas',     starter: false,         pro: true,            business: true },
 
-  // Equipo
   { category: 'Equipo',      feature: 'Roles y permisos',         starter: false,         pro: true,            business: true },
   { category: 'Equipo',      feature: 'Asesor contable humano',   starter: false,         pro: false,           business: true },
 
-  // Integraciones
   { category: 'Integraciones', feature: 'API',                     starter: false,        pro: false,           business: true },
   { category: 'Integraciones', feature: 'Conexión bancaria',       starter: true,         pro: true,            business: true },
   { category: 'Integraciones', feature: 'Exportar a Excel/CSV',    starter: true,         pro: true,            business: true },
 
-  // Soporte
   { category: 'Soporte',     feature: 'Soporte por email',         starter: true,         pro: true,            business: true },
   { category: 'Soporte',     feature: 'Soporte prioritario',       starter: false,        pro: true,            business: true },
   { category: 'Soporte',     feature: 'Soporte 24/7',              starter: false,        pro: false,           business: true },
 
-  // Seguridad
   { category: 'Seguridad',   feature: 'Cifrado AES-256',           starter: true,         pro: true,            business: true },
-  { category: 'Seguridad',   feature: 'Cumplimiento RGPD',         starter: true,         pro: true,            business: true },
+  { category: 'Seguridad',   feature: 'Cumplimiento LOPDP',        starter: true,         pro: true,            business: true },
   { category: 'Seguridad',   feature: 'Auditoría de accesos',      starter: false,        pro: true,            business: true },
 ]
 
@@ -73,7 +66,6 @@ function Cell({ value }: { value: CellValue }) {
 }
 
 export function ComparisonTable() {
-  // Agrupar filas por categoría
   const categories = Array.from(new Set(rows.map((r) => r.category)))
 
   return (
@@ -92,7 +84,6 @@ export function ComparisonTable() {
 
       <div className="mt-12 overflow-x-auto rounded-lg border border-line">
         <table className="w-full min-w-[640px] border-collapse text-left">
-          {/* Cabecera */}
           <thead>
             <tr className="border-b border-line bg-bg">
               <th className="sticky left-0 z-10 bg-bg px-5 py-4 text-xs font-semibold uppercase tracking-wider text-muted">
@@ -105,16 +96,15 @@ export function ComparisonTable() {
               <th className="relative px-5 py-4 text-center">
                 <div className="absolute inset-x-0 top-0 h-0.5 bg-grad-primary" />
                 <div className="text-sm font-semibold text-primary">Pro</div>
-                <div className="mt-1 text-xs text-muted">19 €/mes</div>
+                <div className="mt-1 text-xs text-muted">$19/mes</div>
               </th>
               <th className="px-5 py-4 text-center">
                 <div className="text-sm font-semibold">Business</div>
-                <div className="mt-1 text-xs text-muted">49 €/mes</div>
+                <div className="mt-1 text-xs text-muted">$49/mes</div>
               </th>
             </tr>
           </thead>
 
-          {/* Cuerpo */}
           <tbody>
             {categories.map((cat) => (
               <Fragment key={cat}>

@@ -1,5 +1,11 @@
 // lib/structured-data.ts
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SOCIAL, CONTACT_EMAIL } from '@/lib/site'
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  SOCIAL,
+  CONTACT_EMAIL,
+} from '@/lib/site'
 
 export function organizationSchema() {
   return {
@@ -10,6 +16,10 @@ export function organizationSchema() {
     logo: `${SITE_URL}/icon.svg`,
     description: SITE_DESCRIPTION,
     email: CONTACT_EMAIL,
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'EC',
+    },
     sameAs: [SOCIAL.linkedin, SOCIAL.x, SOCIAL.instagram, SOCIAL.youtube],
   }
 }
@@ -28,21 +38,22 @@ export function softwareApplicationSchema() {
         '@type': 'Offer',
         name: 'Starter',
         price: '0',
-        priceCurrency: 'EUR',
+        priceCurrency: 'USD',
         description: 'Plan gratuito para empezar a ordenarte',
       },
       {
         '@type': 'Offer',
         name: 'Pro',
         price: '19',
-        priceCurrency: 'EUR',
-        description: 'Copiloto IA, facturas ilimitadas y recordatorios de plazos',
+        priceCurrency: 'USD',
+        description:
+          'Copiloto IA, facturas ilimitadas y recordatorios de plazos',
       },
       {
         '@type': 'Offer',
         name: 'Business',
         price: '49',
-        priceCurrency: 'EUR',
+        priceCurrency: 'USD',
         description: 'Multi-empresa, API y asesor contable humano',
       },
     ],
@@ -63,7 +74,7 @@ export function faqSchema() {
     },
     {
       q: '¿Es seguro conectar mi banco?',
-      a: 'Sí. Usamos cifrado bancario (AES-256) y cumplimos el RGPD. Zora solo lee, nunca mueve dinero.',
+      a: 'Sí. Usamos cifrado bancario (AES-256) y cumplimos la LOPDP. Zora solo lee, nunca mueve dinero.',
     },
     {
       q: '¿Puedo cancelar cuando quiera?',
@@ -71,7 +82,7 @@ export function faqSchema() {
     },
     {
       q: '¿Sirve para mi tipo de negocio?',
-      a: 'Zora funciona para autónomos, pymes, tiendas online, agencias, freelancers y SaaS. Si facturas, Zora te sirve.',
+      a: 'Zora funciona para autónomos, pymes, tiendas online, agencias, freelancers y sociedades. Si facturas, Zora te sirve.',
     },
     {
       q: '¿Qué pasa cuando termine la prueba gratis?',
@@ -82,8 +93,8 @@ export function faqSchema() {
       a: 'Sí, en el plan Business tienes asesor contable humano incluido. En otros planes, el Copiloto IA resuelve el 90% de dudas.',
     },
     {
-      q: '¿Zora emite facturas por mí?',
-      a: 'Sí. Puedes crear y enviar facturas directamente desde Zora. Con tu logo y datos fiscales.',
+      q: '¿Zora emite facturas electrónicas válidas para el SRI?',
+      a: 'Sí. Puedes crear y enviar facturas electrónicas directamente desde Zora, con tu RUC y datos fiscales, conforme a los requisitos del SRI.',
     },
   ]
 

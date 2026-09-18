@@ -37,17 +37,19 @@ export function DashboardMockup() {
           <div className="grid grid-cols-3 gap-3">
             <div className="rounded-md border border-line bg-bg p-3">
               <p className="text-xs text-muted">Ingresos</p>
-              <p className="mt-1 text-lg font-semibold text-primary">12.480 €</p>
+              <p className="mt-1 text-lg font-semibold text-primary">
+                $12.480
+              </p>
               <p className="text-xs text-success">+18% vs feb</p>
             </div>
             <div className="rounded-md border border-line bg-bg p-3">
               <p className="text-xs text-muted">Gastos</p>
-              <p className="mt-1 text-lg font-semibold">4.210 €</p>
+              <p className="mt-1 text-lg font-semibold">$4.210</p>
               <p className="text-xs text-muted">-3% vs feb</p>
             </div>
             <div className="rounded-md border border-line bg-bg p-3">
               <p className="text-xs text-muted">Beneficio</p>
-              <p className="mt-1 text-lg font-semibold">8.270 €</p>
+              <p className="mt-1 text-lg font-semibold">$8.270</p>
               <p className="text-xs text-success">+24% vs feb</p>
             </div>
           </div>
@@ -81,7 +83,7 @@ export function DashboardMockup() {
                   Copiloto Zora
                 </p>
                 <p className="mt-1 text-xs text-[#E7E1FF]/80">
-                  Este mes pagas 620 € de IVA. Te aviso 5 días antes. ¿Lo
+                  Este mes pagas $620 de IVA. Te aviso 5 días antes. ¿Lo
                   reservamos?
                 </p>
               </div>

@@ -3,6 +3,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import remarkGfm from 'remark-gfm'
 
 interface Props {
   source: string
@@ -108,13 +109,14 @@ export function MDXContent({ source }: Props) {
         source={source}
         components={components}
         options={{
-          mdxOptions: {
-            rehypePlugins: [
-              rehypeSlug,
-              [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-            ],
-          },
-        }}
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+          rehypePlugins: [
+            rehypeSlug,
+            [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+          ],
+        },
+      }}
       />
     </div>
   )

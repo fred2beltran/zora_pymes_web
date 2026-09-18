@@ -1,9 +1,9 @@
 // components/blog/MDXContent.tsx
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
+import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import remarkGfm from 'remark-gfm'
 
 interface Props {
   source: string
@@ -86,19 +86,30 @@ const components = {
       {...props}
     />
   ),
+
+  // ===== TABLAS (renderizadas por remark-gfm) =====
   table: (props: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 overflow-x-auto rounded-md border border-line">
       <table className="w-full border-collapse text-sm" {...props} />
     </div>
   ),
+  thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <thead className="bg-surface" {...props} />
+  ),
+  tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <tbody {...props} />
+  ),
+  tr: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
+    <tr className="border-b border-line last:border-b-0" {...props} />
+  ),
   th: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
-      className="border-b border-line bg-surface px-4 py-2 text-left font-semibold"
+      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-muted"
       {...props}
     />
   ),
   td: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <td className="border-b border-line px-4 py-2" {...props} />
+    <td className="px-4 py-3 text-sm text-fg/90 align-top" {...props} />
   ),
 }
 
@@ -109,14 +120,14 @@ export function MDXContent({ source }: Props) {
         source={source}
         components={components}
         options={{
-        mdxOptions: {
-          remarkPlugins: [remarkGfm],
-          rehypePlugins: [
-            rehypeSlug,
-            [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-          ],
-        },
-      }}
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [
+              rehypeSlug,
+              [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+            ],
+          },
+        }}
       />
     </div>
   )
